@@ -12,7 +12,6 @@ import {
   List,
   ArrowLeft,
   MoreVertical,
-  Download,
   Trash2,
   FolderPlus,
   ChevronRight,
@@ -44,19 +43,44 @@ const allFiles: FileItem[] = [
   { id: "4", name: "Presentation.pdf", type: "file", size: "2.4 MB", modified: "2024-11-28" },
   { id: "5", name: "Notes.docx", type: "file", size: "1.2 MB", modified: "2024-11-27" },
   { id: "6", name: "Image.png", type: "file", size: "856 KB", modified: "2024-11-26" },
+  { id: "7", name: "Final_Report.pdf", type: "file", size: "3.8 MB", modified: "2024-11-29" },
   
   // Inside "Lecture Materials" folder
-  { id: "7", name: "Week 1", type: "folder", modified: "2024-11-20", parentId: "1" },
-  { id: "8", name: "Week 2", type: "folder", modified: "2024-11-21", parentId: "1" },
-  { id: "9", name: "Syllabus.pdf", type: "file", size: "450 KB", modified: "2024-11-15", parentId: "1" },
+  { id: "8", name: "Week 1", type: "folder", modified: "2024-11-20", parentId: "1" },
+  { id: "9", name: "Week 2", type: "folder", modified: "2024-11-21", parentId: "1" },
+  { id: "10", name: "Week 3", type: "folder", modified: "2024-11-22", parentId: "1" },
+  { id: "11", name: "Syllabus.pdf", type: "file", size: "450 KB", modified: "2024-11-15", parentId: "1" },
+  { id: "12", name: "Course_Schedule.xlsx", type: "file", size: "125 KB", modified: "2024-11-16", parentId: "1" },
+  
+  // Inside Week 1
+  { id: "13", name: "Lecture1.pdf", type: "file", size: "2.1 MB", modified: "2024-11-20", parentId: "8" },
+  { id: "14", name: "Lecture1_Slides.pptx", type: "file", size: "5.4 MB", modified: "2024-11-20", parentId: "8" },
+  { id: "15", name: "Code_Examples", type: "folder", modified: "2024-11-20", parentId: "8" },
+  
+  // Inside Week 2
+  { id: "16", name: "Lecture2.pdf", type: "file", size: "1.8 MB", modified: "2024-11-21", parentId: "9" },
+  { id: "17", name: "Quiz1.pdf", type: "file", size: "340 KB", modified: "2024-11-21", parentId: "9" },
+  
+  // Inside Week 3
+  { id: "18", name: "Lecture3.pdf", type: "file", size: "2.5 MB", modified: "2024-11-22", parentId: "10" },
+  { id: "19", name: "Lab_Materials", type: "folder", modified: "2024-11-22", parentId: "10" },
   
   // Inside "Assignments" folder
-  { id: "10", name: "Assignment1.pdf", type: "file", size: "1.1 MB", modified: "2024-11-25", parentId: "2" },
-  { id: "11", name: "Assignment2.pdf", type: "file", size: "980 KB", modified: "2024-11-26", parentId: "2" },
+  { id: "20", name: "Assignment1.pdf", type: "file", size: "1.1 MB", modified: "2024-11-25", parentId: "2" },
+  { id: "21", name: "Assignment2.pdf", type: "file", size: "980 KB", modified: "2024-11-26", parentId: "2" },
+  { id: "22", name: "Assignment3.pdf", type: "file", size: "1.5 MB", modified: "2024-11-27", parentId: "2" },
+  { id: "23", name: "Group_Project", type: "folder", modified: "2024-11-28", parentId: "2" },
   
   // Inside "Resources" folder
-  { id: "12", name: "Textbook.pdf", type: "file", size: "15.2 MB", modified: "2024-11-10", parentId: "3" },
-  { id: "13", name: "References", type: "folder", modified: "2024-11-12", parentId: "3" },
+  { id: "24", name: "Textbook.pdf", type: "file", size: "15.2 MB", modified: "2024-11-10", parentId: "3" },
+  { id: "25", name: "References", type: "folder", modified: "2024-11-12", parentId: "3" },
+  { id: "26", name: "Additional_Reading.pdf", type: "file", size: "4.2 MB", modified: "2024-11-13", parentId: "3" },
+  { id: "27", name: "Video_Lectures", type: "folder", modified: "2024-11-14", parentId: "3" },
+  
+  // Inside Code_Examples
+  { id: "28", name: "example1.py", type: "file", size: "12 KB", modified: "2024-11-20", parentId: "15" },
+  { id: "29", name: "example2.py", type: "file", size: "8 KB", modified: "2024-11-20", parentId: "15" },
+  { id: "30", name: "data.csv", type: "file", size: "245 KB", modified: "2024-11-20", parentId: "15" },
 ];
 
 const CloudDrive = () => {
@@ -206,10 +230,6 @@ const CloudDrive = () => {
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
-                        <DropdownMenuItem>
-                          <Download className="w-4 h-4 mr-2" />
-                          Download
-                        </DropdownMenuItem>
                         <DropdownMenuItem className="text-destructive">
                           <Trash2 className="w-4 h-4 mr-2" />
                           Delete
@@ -287,15 +307,17 @@ const CloudDrive = () => {
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
                         {item.type === "file" && (
-                          <DropdownMenuItem>
-                            <Download className="w-4 h-4 mr-2" />
-                            Download
+                          <DropdownMenuItem className="text-destructive">
+                            <Trash2 className="w-4 h-4 mr-2" />
+                            Delete
                           </DropdownMenuItem>
                         )}
-                        <DropdownMenuItem className="text-destructive">
-                          <Trash2 className="w-4 h-4 mr-2" />
-                          Delete
-                        </DropdownMenuItem>
+                        {item.type === "folder" && (
+                          <DropdownMenuItem className="text-destructive">
+                            <Trash2 className="w-4 h-4 mr-2" />
+                            Delete
+                          </DropdownMenuItem>
+                        )}
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </div>
