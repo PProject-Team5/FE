@@ -92,7 +92,9 @@ const CloudDrive = () => {
   ]);
 
   // Get files for current folder
-  const files = allFiles.filter((file) => file.parentId === currentFolderId);
+  const files = allFiles.filter((file) => 
+    (currentFolderId === null && !file.parentId) || file.parentId === currentFolderId
+  );
 
   const handleFolderClick = (folderId: string, folderName: string) => {
     setCurrentFolderId(folderId);
