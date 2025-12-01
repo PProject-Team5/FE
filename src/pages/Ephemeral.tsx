@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Cloud, Plus, LogIn, ArrowLeft, Key, Network } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 
 const Ephemeral = () => {
@@ -14,6 +14,7 @@ const Ephemeral = () => {
   const [networkRestriction, setNetworkRestriction] = useState("");
   const [accessCode, setAccessCode] = useState("");
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const handleCreateCloud = () => {
     if (!cloudName || !password) {
@@ -45,6 +46,11 @@ const Ephemeral = () => {
       title: "Joining Cloud",
       description: "Connecting to the cloud instance...",
     });
+    
+    // Navigate to cloud drive page
+    setTimeout(() => {
+      navigate("/cloud-drive");
+    }, 1000);
   };
 
   return (
