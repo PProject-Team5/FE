@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import OneTime from "./pages/OneTime";
 import Ephemeral from "./pages/Ephemeral";
+import CloudDrive from "./pages/CloudDrive";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -20,6 +21,7 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/one-time" element={<OneTime />} />
           <Route path="/ephemeral" element={<Ephemeral />} />
+          <Route path="/cloud-drive" element={<CloudDrive />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
