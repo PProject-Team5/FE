@@ -32,7 +32,7 @@ const OneTime = () => {
   const handleDrop = (e: React.DragEvent) => {
     e.preventDefault();
     setIsDragging(false);
-    
+
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
       setFile(e.dataTransfer.files[0]);
     }
@@ -47,8 +47,8 @@ const OneTime = () => {
   const handleGenerate = () => {
     if (!file) {
       toast({
-        title: "No file selected",
-        description: "Please select a file to upload",
+        title: "파일이 선택되지 않았어요",
+        description: "업로드할 파일을 선택해 주세요.",
         variant: "destructive",
       });
       return;
@@ -58,10 +58,10 @@ const OneTime = () => {
     const randomId = Math.random().toString(36).substring(2, 8);
     const url = `${window.location.origin}/${randomId}`;
     setGeneratedUrl(url);
-    
+
     toast({
-      title: "URL Generated!",
-      description: "Your file is ready to share",
+      title: "링크가 생성되었어요!",
+      description: "파일을 공유할 준비가 되었어요.",
     });
   };
 
@@ -69,10 +69,10 @@ const OneTime = () => {
     navigator.clipboard.writeText(generatedUrl);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
-    
+
     toast({
-      title: "Copied!",
-      description: "URL copied to clipboard",
+      title: "복사 완료!",
+      description: "링크가 복사되었어요.",
     });
   };
 
@@ -82,21 +82,25 @@ const OneTime = () => {
         <Link to="/">
           <Button variant="ghost" className="mb-6">
             <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Home
+            홈으로 돌아가기
           </Button>
         </Link>
 
         <Card className="p-8 shadow-lg-custom">
           <div className="text-center mb-8">
-            <h1 className="text-4xl font-bold mb-3 text-card-foreground">One-Time Download</h1>
-            <p className="text-muted-foreground text-lg">Upload and share files with automatic deletion</p>
+            <h1 className="text-4xl font-bold mb-3 text-card-foreground">
+              1회성 다운로드 링크 생성
+            </h1>
+            <p className="text-muted-foreground text-lg">
+              업로드한 파일이 자동으로 삭제돼요.
+            </p>
           </div>
 
           {/* File Upload Area */}
           <div
             className={`border-2 border-dashed rounded-xl p-12 text-center transition-all duration-300 mb-8 ${
-              isDragging 
-                ? "border-primary bg-primary/5 scale-105" 
+              isDragging
+                ? "border-primary bg-primary/5 scale-105"
                 : "border-border hover:border-primary/50"
             }`}
             onDragOver={handleDragOver}
@@ -109,13 +113,15 @@ const OneTime = () => {
                   <Check className="w-8 h-8 text-primary" />
                 </div>
                 <div>
-                  <p className="font-semibold text-card-foreground text-lg">{file.name}</p>
+                  <p className="font-semibold text-card-foreground text-lg">
+                    {file.name}
+                  </p>
                   <p className="text-sm text-muted-foreground">
-                    {(file.size / 1024 / 1024).toFixed(2)} MB
+                    {(file.size / 1024 / 1024).toFixed(2)}MB
                   </p>
                 </div>
                 <Button variant="outline" onClick={() => setFile(null)}>
-                  Remove File
+                  파일 삭제하기
                 </Button>
               </div>
             ) : (
@@ -147,7 +153,7 @@ const OneTime = () => {
           <div className="space-y-6 mb-8">
             <div>
               <Label htmlFor="downloads" className="text-base mb-2 block">
-                Maximum Downloads
+                최대 다운로드 횟수
               </Label>
               <Input
                 id="downloads"
@@ -161,10 +167,15 @@ const OneTime = () => {
 
             <div className="flex items-center justify-between p-4 rounded-lg bg-muted/50">
               <div className="flex-1">
-                <Label htmlFor="password-switch" className="text-base font-semibold cursor-pointer">
-                  Password Protection
+                <Label
+                  htmlFor="password-switch"
+                  className="text-base font-semibold cursor-pointer"
+                >
+                  비밀번호 설정
                 </Label>
-                <p className="text-sm text-muted-foreground">Require password to download</p>
+                <p className="text-sm text-muted-foreground">
+                  다운로드 시 비밀번호를 입력해야 해요.
+                </p>
               </div>
               <Switch
                 id="password-switch"
@@ -177,7 +188,7 @@ const OneTime = () => {
               <div className="ml-4 animate-slide-up">
                 <Input
                   type="password"
-                  placeholder="Enter password"
+                  placeholder="비밀번호를 입력해 주세요"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
@@ -186,10 +197,15 @@ const OneTime = () => {
 
             <div className="flex items-center justify-between p-4 rounded-lg bg-muted/50">
               <div className="flex-1">
-                <Label htmlFor="otp-switch" className="text-base font-semibold cursor-pointer">
-                  OTP Verification
+                <Label
+                  htmlFor="otp-switch"
+                  className="text-base font-semibold cursor-pointer"
+                >
+                  이메일 인증(OTP)
                 </Label>
-                <p className="text-sm text-muted-foreground">Send one-time code to email</p>
+                <p className="text-sm text-muted-foreground">
+                  이메일로 1회용 코드를 받을 수 있어요.
+                </p>
               </div>
               <Switch
                 id="otp-switch"
@@ -207,14 +223,14 @@ const OneTime = () => {
             disabled={!file}
           >
             <LinkIcon className="w-5 h-5 mr-2" />
-            Generate Short URL
+            링크 생성하기
           </Button>
 
           {/* Generated URL */}
           {generatedUrl && (
             <Card className="p-6 bg-primary/5 border-primary/20 animate-slide-up">
               <Label className="text-sm text-muted-foreground mb-2 block">
-                Your Short URL
+                다운로드 링크
               </Label>
               <div className="flex gap-2">
                 <Input
@@ -236,7 +252,7 @@ const OneTime = () => {
                 </Button>
               </div>
               <p className="text-sm text-muted-foreground mt-3">
-                This file will be deleted after {maxDownloads} download{maxDownloads !== "1" ? "s" : ""}
+                이 파일은 {maxDownloads}회 다운로드 이후 삭제돼요.
               </p>
             </Card>
           )}

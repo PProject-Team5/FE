@@ -123,6 +123,7 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
-    font-family: "Paperlogy", sans-serif;
+    /* font-family: "Paperlogy", sans-serif; */
+    font-family: "Pretendard", sans-serif;
   }
 }
