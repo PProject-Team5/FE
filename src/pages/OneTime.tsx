@@ -54,8 +54,15 @@ const OneTime = () => {
       return;
     }
 
-    // Generate a random short URL (demo)
-    const randomId = Math.random().toString(36).substring(2, 8);
+    // 영어 3자리 + 숫자 2자리 (예: abc12)
+    const getReadableCode = () => {
+      const letters = Array.from({ length: 3 }, () =>
+        String.fromCharCode(97 + Math.floor(Math.random() * 26))
+      ).join("");
+      const digits = Math.floor(10 + Math.random() * 90); // 10~99
+      return letters + digits;
+    };
+    const randomId = getReadableCode();
     const url = `${window.location.origin}/${randomId}`;
     setGeneratedUrl(url);
 
@@ -188,7 +195,7 @@ const OneTime = () => {
               <div className="ml-4 animate-slide-up">
                 <Input
                   type="password"
-                  placeholder="비밀번호를 입력해 주세요"
+                  placeholder="비밀번호를 입력해주세요"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />

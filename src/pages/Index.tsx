@@ -11,12 +11,12 @@ const Index = () => {
       <div className="container mx-auto px-4 py-16">
         <div className="text-center mb-16 animate-fade-in">
           <div className="flex items-center justify-center mb-6">
-            <Logo className="mx-auto w-24 h-24" />
+            <Logo className="mx-auto w-96 h-24" />
           </div>
           {/* <h1 className="text-5xl md:text-7xl font-bold mb-6 text-foreground">ShortCloud</h1> */}
           <h2 className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto mb-8 font-medium">
             프라이버시 중심 클라우드 & 1회성 안전 공유, 회원가입 없이 바로
-            이용해요.
+            이용해요!
           </h2>
         </div>
 

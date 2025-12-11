@@ -7,6 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Cloud, Plus, LogIn, ArrowLeft, Key, Network } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
+import CloudLogo from "@/assets/ic_logo_cloud.svg?react";
 
 const Ephemeral = () => {
   const [cloudName, setCloudName] = useState("");
@@ -63,7 +64,7 @@ const Ephemeral = () => {
 
         <div className="text-center mb-8">
           <div className="flex items-center justify-center mb-4">
-            <Cloud className="w-16 h-16 text-primary" />
+            <CloudLogo className="w-16" />
           </div>
           <h1 className="text-4xl font-bold mb-3 text-foreground">
             임시 그룹 클라우드
