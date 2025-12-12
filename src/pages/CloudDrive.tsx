@@ -36,64 +36,36 @@ interface FileItem {
 
 // Mock data structure with folders and their contents
 const allFiles: FileItem[] = [
-  // Root level
-  { id: "1", name: "Lecture Materials", type: "folder", modified: "2024-11-28" },
-  { id: "2", name: "Assignments", type: "folder", modified: "2024-11-27" },
-  { id: "3", name: "Resources", type: "folder", modified: "2024-11-26" },
-  { id: "4", name: "Presentation.pdf", type: "file", size: "2.4 MB", modified: "2024-11-28" },
-  { id: "5", name: "Notes.docx", type: "file", size: "1.2 MB", modified: "2024-11-27" },
-  { id: "6", name: "Image.png", type: "file", size: "856 KB", modified: "2024-11-26" },
-  { id: "7", name: "Final_Report.pdf", type: "file", size: "3.8 MB", modified: "2024-11-29" },
-  
-  // Inside "Lecture Materials" folder
-  { id: "8", name: "Week 1", type: "folder", modified: "2024-11-20", parentId: "1" },
-  { id: "9", name: "Week 2", type: "folder", modified: "2024-11-21", parentId: "1" },
-  { id: "10", name: "Week 3", type: "folder", modified: "2024-11-22", parentId: "1" },
-  { id: "11", name: "Syllabus.pdf", type: "file", size: "450 KB", modified: "2024-11-15", parentId: "1" },
-  { id: "12", name: "Course_Schedule.xlsx", type: "file", size: "125 KB", modified: "2024-11-16", parentId: "1" },
-  
-  // Inside Week 1
-  { id: "13", name: "Lecture1.pdf", type: "file", size: "2.1 MB", modified: "2024-11-20", parentId: "8" },
-  { id: "14", name: "Lecture1_Slides.pptx", type: "file", size: "5.4 MB", modified: "2024-11-20", parentId: "8" },
-  { id: "15", name: "Code_Examples", type: "folder", modified: "2024-11-20", parentId: "8" },
-  
-  // Inside Week 2
-  { id: "16", name: "Lecture2.pdf", type: "file", size: "1.8 MB", modified: "2024-11-21", parentId: "9" },
-  { id: "17", name: "Quiz1.pdf", type: "file", size: "340 KB", modified: "2024-11-21", parentId: "9" },
-  
-  // Inside Week 3
-  { id: "18", name: "Lecture3.pdf", type: "file", size: "2.5 MB", modified: "2024-11-22", parentId: "10" },
-  { id: "19", name: "Lab_Materials", type: "folder", modified: "2024-11-22", parentId: "10" },
-  
-  // Inside "Assignments" folder
-  { id: "20", name: "Assignment1.pdf", type: "file", size: "1.1 MB", modified: "2024-11-25", parentId: "2" },
-  { id: "21", name: "Assignment2.pdf", type: "file", size: "980 KB", modified: "2024-11-26", parentId: "2" },
-  { id: "22", name: "Assignment3.pdf", type: "file", size: "1.5 MB", modified: "2024-11-27", parentId: "2" },
-  { id: "23", name: "Group_Project", type: "folder", modified: "2024-11-28", parentId: "2" },
-  
-  // Inside "Resources" folder
-  { id: "24", name: "Textbook.pdf", type: "file", size: "15.2 MB", modified: "2024-11-10", parentId: "3" },
-  { id: "25", name: "References", type: "folder", modified: "2024-11-12", parentId: "3" },
-  { id: "26", name: "Additional_Reading.pdf", type: "file", size: "4.2 MB", modified: "2024-11-13", parentId: "3" },
-  { id: "27", name: "Video_Lectures", type: "folder", modified: "2024-11-14", parentId: "3" },
-  
-  // Inside Code_Examples
-  { id: "28", name: "example1.py", type: "file", size: "12 KB", modified: "2024-11-20", parentId: "15" },
-  { id: "29", name: "example2.py", type: "file", size: "8 KB", modified: "2024-11-20", parentId: "15" },
-  { id: "30", name: "data.csv", type: "file", size: "245 KB", modified: "2024-11-20", parentId: "15" },
+  { id: "1", name: "Lecture7", type: "folder", modified: "2025-12-10" },
+  {
+    id: "2",
+    name: "최종보고서.pdf",
+    type: "file",
+    size: "4.2 MB",
+    modified: "2025-12-15",
+  },
+  { id: "3", name: "7주차_과제_폴더", type: "folder", modified: "2025-12-12" },
 ];
+
+// 날짜 변환 유틸 함수
+const formatDate = (dateString: string) => {
+  // "YYYY-MM-DD" → "YYYY.MM.DD"
+  return dateString.replace(/-/g, ".");
+};
 
 const CloudDrive = () => {
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [searchQuery, setSearchQuery] = useState("");
   const [currentFolderId, setCurrentFolderId] = useState<string | null>(null);
-  const [folderPath, setFolderPath] = useState<Array<{ id: string | null; name: string }>>([
-    { id: null, name: "My Cloud" },
-  ]);
+  const [folderPath, setFolderPath] = useState<
+    Array<{ id: string | null; name: string }>
+  >([{ id: null, name: "My Cloud" }]);
 
   // Get files for current folder
-  const files = allFiles.filter((file) => 
-    (currentFolderId === null && !file.parentId) || file.parentId === currentFolderId
+  const files = allFiles.filter(
+    (file) =>
+      (currentFolderId === null && !file.parentId) ||
+      file.parentId === currentFolderId
   );
 
   const handleFolderClick = (folderId: string, folderName: string) => {
@@ -117,17 +89,19 @@ const CloudDrive = () => {
               <Link to="/ephemeral">
                 <Button variant="ghost" size="sm">
                   <ArrowLeft className="w-4 h-4 mr-2" />
-                  Back
+                  돌아가기
                 </Button>
               </Link>
               <div className="flex items-center gap-2">
                 <Cloud className="w-6 h-6 text-primary" />
-                <h1 className="text-xl font-bold text-foreground">My Cloud Storage</h1>
+                <h1 className="text-xl font-bold text-foreground">
+                  내 클라우드 저장소
+                </h1>
               </div>
             </div>
             <Button className="bg-gradient-primary">
               <Upload className="w-4 h-4 mr-2" />
-              Upload Files
+              파일 업로드
             </Button>
           </div>
         </div>
@@ -138,7 +112,9 @@ const CloudDrive = () => {
         <div className="mb-4 flex items-center gap-2 text-sm">
           {folderPath.map((path, index) => (
             <div key={index} className="flex items-center gap-2">
-              {index > 0 && <ChevronRight className="w-4 h-4 text-muted-foreground" />}
+              {index > 0 && (
+                <ChevronRight className="w-4 h-4 text-muted-foreground" />
+              )}
               <button
                 onClick={() => handleBreadcrumbClick(index)}
                 className={`flex items-center gap-1 hover:text-primary transition-colors ${
@@ -159,8 +135,7 @@ const CloudDrive = () => {
           <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
             <div className="flex gap-2 w-full md:w-auto">
               <Button variant="outline" className="gap-2">
-                <FolderPlus className="w-4 h-4" />
-                New Folder
+                <FolderPlus className="w-4 h-4" />새 폴더
               </Button>
             </div>
 
@@ -168,7 +143,7 @@ const CloudDrive = () => {
               <div className="relative flex-1 md:w-64">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                 <Input
-                  placeholder="Search files..."
+                  placeholder="파일 및 폴더명을 입력하세요"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="pl-10"
@@ -201,7 +176,10 @@ const CloudDrive = () => {
               <Card
                 key={item.id}
                 className="p-4 hover:shadow-md-custom transition-all cursor-pointer group animate-fade-in"
-                onClick={() => item.type === "folder" && handleFolderClick(item.id, item.name)}
+                onClick={() =>
+                  item.type === "folder" &&
+                  handleFolderClick(item.id, item.name)
+                }
               >
                 <div className="flex flex-col items-center gap-3">
                   <div className="relative">
@@ -216,10 +194,11 @@ const CloudDrive = () => {
                       {item.name}
                     </p>
                     <p className="text-xs text-muted-foreground mt-1">
-                      {item.type === "file" && item.size} • {item.modified}
+                      {item.type === "file" && item.size} •{" "}
+                      {formatDate(item.modified)}
                     </p>
                   </div>
-                  {item.type === "file" && (
+                  {(item.type === "file" || item.type === "folder") && (
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
                         <Button
@@ -234,27 +213,7 @@ const CloudDrive = () => {
                       <DropdownMenuContent align="end">
                         <DropdownMenuItem className="text-destructive">
                           <Trash2 className="w-4 h-4 mr-2" />
-                          Delete
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  )}
-                  {item.type === "folder" && (
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          className="w-full opacity-0 group-hover:opacity-100 transition-opacity"
-                          onClick={(e) => e.stopPropagation()}
-                        >
-                          <MoreVertical className="w-4 h-4" />
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end">
-                        <DropdownMenuItem className="text-destructive">
-                          <Trash2 className="w-4 h-4 mr-2" />
-                          Delete
+                          삭제하기
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
@@ -270,16 +229,19 @@ const CloudDrive = () => {
           <Card className="shadow-lg-custom animate-fade-in">
             <div className="divide-y divide-border">
               <div className="grid grid-cols-12 gap-4 p-4 bg-muted/50 font-semibold text-sm">
-                <div className="col-span-6">Name</div>
-                <div className="col-span-2 hidden md:block">Size</div>
-                <div className="col-span-3 hidden md:block">Modified</div>
+                <div className="col-span-6">이름</div>
+                <div className="col-span-2 hidden md:block">크기</div>
+                <div className="col-span-3 hidden md:block">수정일</div>
                 <div className="col-span-1"></div>
               </div>
               {files.map((item) => (
                 <div
                   key={item.id}
                   className="grid grid-cols-12 gap-4 p-4 hover:bg-muted/30 transition-colors cursor-pointer group"
-                  onClick={() => item.type === "folder" && handleFolderClick(item.id, item.name)}
+                  onClick={() =>
+                    item.type === "folder" &&
+                    handleFolderClick(item.id, item.name)
+                  }
                 >
                   <div className="col-span-6 flex items-center gap-3">
                     {item.type === "folder" ? (
@@ -287,13 +249,15 @@ const CloudDrive = () => {
                     ) : (
                       <File className="w-5 h-5 text-muted-foreground" />
                     )}
-                    <span className="truncate text-card-foreground">{item.name}</span>
+                    <span className="truncate text-card-foreground">
+                      {item.name}
+                    </span>
                   </div>
                   <div className="col-span-2 hidden md:flex items-center text-muted-foreground text-sm">
                     {item.type === "file" ? item.size : "-"}
                   </div>
                   <div className="col-span-3 hidden md:flex items-center text-muted-foreground text-sm">
-                    {item.modified}
+                    {formatDate(item.modified)}
                   </div>
                   <div className="col-span-1 flex items-center justify-end">
                     <DropdownMenu>
@@ -308,18 +272,10 @@ const CloudDrive = () => {
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
-                        {item.type === "file" && (
-                          <DropdownMenuItem className="text-destructive">
-                            <Trash2 className="w-4 h-4 mr-2" />
-                            Delete
-                          </DropdownMenuItem>
-                        )}
-                        {item.type === "folder" && (
-                          <DropdownMenuItem className="text-destructive">
-                            <Trash2 className="w-4 h-4 mr-2" />
-                            Delete
-                          </DropdownMenuItem>
-                        )}
+                        <DropdownMenuItem className="text-destructive">
+                          <Trash2 className="w-4 h-4 mr-2" />
+                          삭제하기
+                        </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </div>
